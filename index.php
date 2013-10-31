@@ -82,5 +82,6 @@
         echo "<h3>No one is currently registered.</h3>";
     }
 ?>
+<a href "search.php">Search here</a>
 </body>
 </html>
