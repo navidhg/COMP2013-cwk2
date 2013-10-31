@@ -39,10 +39,12 @@
     if(!empty($_POST)) {
 
         $search = $_POST['search'];
-        $sql_select = "SELECT * FROM registration_tbl WHERE name LIKE '%?%'"
+        $sql_select = "SELECT * FROM registration_tbl WHERE name LIKE ?";
+        //$stmt = $conn->query($sql_select);
+        $stmt = $conn->prepare($sql_select);
+        $stmt->bindValue(1, '%'.$search.'%');
 
-        $stmt = $conn->query($sql_select);
-        $stmt->bindValue(1, $search);
+        $stmt->execute();
 
         $registrants = $stmt->fetchAll(); 
         if(count($registrants) > 0) {
@@ -60,7 +62,7 @@
             }
             echo "</table>";
         } else {
-            echo "<h3>No one is currently registered.</h3>";
+            echo "<h3>No hits found.</h3>";
         }
     }
 ?>
