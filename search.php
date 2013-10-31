@@ -16,7 +16,7 @@
 </style>
 </head>
 <h1>Search</h1>
-<p>Enter your search term for a search across name, email and company.</p>
+<p>Enter a name to search</p>
 <form method="post" action="search.php" enctype="multipart/form-data" >
       Search  <input type="text" name="search" id="search"/></br>
       <input type="submit" name="submit" value="Submit" />
@@ -38,14 +38,11 @@
     // Return search results
     if(!empty($_POST)) {
 
-        // Retrieve data
         $search = $_POST['search'];
-        $sql_select = "SELECT * FROM registration_tbl WHERE name LIKE '%?%' OR email LIKE '%?%' OR company_name LIKE '%?%'"
+        $sql_select = "SELECT * FROM registration_tbl WHERE name LIKE '%?%'"
 
         $stmt = $conn->query($sql_select);
         $stmt->bindValue(1, $search);
-        $stmt->bindValue(2, $search);
-        $stmt->bindValue(3, $search);
 
         $registrants = $stmt->fetchAll(); 
         if(count($registrants) > 0) {
