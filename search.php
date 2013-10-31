@@ -37,33 +37,34 @@
     }
     // Return search results
     if(!empty($_POST)) {
-    }
-    // Retrieve data
-    $search = $_POST['search'];
-    $sql_select = "SELECT * FROM registration_tbl WHERE name LIKE '%?%' OR email LIKE '%?%' OR company_name LIKE '%?%'"
 
-    $stmt = $conn->query($sql_select);
-    $stmt->bindValue(1, $search);
-    $stmt->bindValue(2, $search);
-    $stmt->bindValue(3, $search);
-    
-    $registrants = $stmt->fetchAll(); 
-    if(count($registrants) > 0) {
-        echo "<h2>People who are registered:</h2>";
-        echo "<table>";
-        echo "<tr><th>Name</th>";
-        echo "<th>Email</th>";
-        echo "<th>Company</th>";
-        echo "<th>Date</th></tr>";
-        foreach($registrants as $registrant) {
-            echo "<tr><td>".$registrant['name']."</td>";
-            echo "<td>".$registrant['email']."</td>";
-            echo "<td>".$registrant['company_name']."</td>";
-            echo "<td>".$registrant['date']."</td></tr>";
+        // Retrieve data
+        $search = $_POST['search'];
+        $sql_select = "SELECT * FROM registration_tbl WHERE name LIKE '%?%' OR email LIKE '%?%' OR company_name LIKE '%?%'"
+
+        $stmt = $conn->query($sql_select);
+        $stmt->bindValue(1, $search);
+        $stmt->bindValue(2, $search);
+        $stmt->bindValue(3, $search);
+
+        $registrants = $stmt->fetchAll(); 
+        if(count($registrants) > 0) {
+            echo "<h2>People who are registered:</h2>";
+            echo "<table>";
+            echo "<tr><th>Name</th>";
+            echo "<th>Email</th>";
+            echo "<th>Company</th>";
+            echo "<th>Date</th></tr>";
+            foreach($registrants as $registrant) {
+                echo "<tr><td>".$registrant['name']."</td>";
+                echo "<td>".$registrant['email']."</td>";
+                echo "<td>".$registrant['company_name']."</td>";
+                echo "<td>".$registrant['date']."</td></tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "<h3>No one is currently registered.</h3>";
         }
-        echo "</table>";
-    } else {
-        echo "<h3>No one is currently registered.</h3>";
     }
 ?>
 </body>
