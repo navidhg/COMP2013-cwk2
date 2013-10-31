@@ -15,3 +15,56 @@
     td { padding: 0.25em 2em 0.25em 0em; border: 0 none; }
 </style>
 </head>
+<h1>Search</h1>
+<p>Enter your search term for a search across name, email and company.</p>
+<form method="post" action="search.php" enctype="multipart/form-data" >
+      Search  <input type="text" name="search" id="search"/></br>
+      <input type="submit" name="submit" value="Submit" />
+</form>
+<?php
+    // DB connection info
+    $host = "eu-cdbr-azure-west-b.cloudapp.net";
+    $user = "b36fc1a8a79d0d";
+    $pwd = "7eea1a8b";
+    $db = "firstAppDB";
+    // Connect to database.
+    try {
+        $conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd);
+        $conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+    }
+    catch(Exception $e){
+        die(var_dump($e));
+    }
+    // Return search results
+    if(!empty($_POST)) {
+    }
+    // Retrieve data
+    $search = $_POST['search'];
+    $sql_select = "SELECT * FROM registration_tbl WHERE name LIKE '%?%' OR email LIKE '%?%' OR company_name LIKE '%?%'"
+
+    $stmt = $conn->query($sql_select);
+    $stmt->bindValue(1, $search);
+    $stmt->bindValue(2, $search);
+    $stmt->bindValue(3, $search);
+    
+    $registrants = $stmt->fetchAll(); 
+    if(count($registrants) > 0) {
+        echo "<h2>People who are registered:</h2>";
+        echo "<table>";
+        echo "<tr><th>Name</th>";
+        echo "<th>Email</th>";
+        echo "<th>Company</th>";
+        echo "<th>Date</th></tr>";
+        foreach($registrants as $registrant) {
+            echo "<tr><td>".$registrant['name']."</td>";
+            echo "<td>".$registrant['email']."</td>";
+            echo "<td>".$registrant['company_name']."</td>";
+            echo "<td>".$registrant['date']."</td></tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "<h3>No one is currently registered.</h3>";
+    }
+?>
+</body>
+</html>
